@@ -3,6 +3,8 @@ with open("coffee_product_reviews.json") as f:
     reviews = json.load(f)
 type(reviews)
 
+from IPython.display import Image, display
+
 num_reviews = len(reviews)
 num_reviews
 # print("The coffee product review dataset contains {} reviews".format(num_reviews))
@@ -57,7 +59,10 @@ selected_review = reviews[review_index]
 
 # Once you've found that value, print out: `This is a <blank> review` where `<blank>` is replaced with either `positive`, `negative`, or `neutral`.
 
-selected_rating = 3
+# selected_rating = 3
+review_index = 47
+selected_review = reviews[review_index]
+selected_rating = selected_review["rating"]
 
 # if selected_rating == 4 or selected_rating == 5:
 #     print('This is a Positive review')
@@ -74,5 +79,50 @@ elif selected_rating == 3:
     blank = 'neutral'
 else:
     blank = "negative"
-print('This is a {} review'.format(blank))
+# print('This is a {} review'.format(blank))
 # print(f'This is a {blank} review.')
+
+### Review Year
+# While it may be less exciting than building machine learning models, a significant part of data science is data cleaning. Lets start to practice some data cleaning skills with the `review_time` key-value pairs.
+
+# For the rest of this lab, we'll go ahead and set up three variables to represent the positive, negative, and neutral examples above.
+
+# (Don't worry too much about this syntax; it uses "unpacking" and "list comprehensions", which we haven't covered yet.)
+
+selected_review_indices = (2, 4, 47)
+positive_review, negative_review, neutral_review = [reviews[i] for i in selected_review_indices]
+
+# Now let's extract the `review_time` value from the positive review:
+
+positive_review_time = positive_review["review_time"]
+negative_review_time = negative_review["review_time"]
+neutral_review_time = neutral_review["review_time"]
+# print(positive_review_time)
+
+
+# Ok, it looks like this is is a string showing the month, the day, and then the year that the review was written. Write code to extract the last 4 characters of the string, then convert it into an integer
+
+positive_review_year = int(positive_review_time[-4:])
+negative_review_year = int(negative_review_time[-4:])
+neutral_review_year = int(neutral_review_time[-4:])
+# print(positive_review_year)
+
+
+# display(Image(url='https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'))
+
+positive_review_image_url = positive_review['images'][0]
+negative_review_image_url = negative_review['images'][0]
+neutral_review_image_url = neutral_review['images'][0]
+# print(positive_review_image_url)
+
+# The complete summary for index `2` should look like this:
+
+# "Bialetti is the Best!"
+# This was a positive review written by Karen in 2017. 
+
+# print(reviews[2])
+# new line in python
+
+print(f'{selected_review["images"][0]} \n')
+print('{} \n'.format(selected_review["review_title"]))
+print(f'This was a {blank} review written by {selected_review["reviewer_name"]} in {selected_review["review_time"][-4:]}.')
